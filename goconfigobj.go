@@ -182,6 +182,16 @@ func (co *ConfigObj) Value(key string) string {
 	return co.baseSection.Value(key)
 }
 
+//AllSections return all sections
+func (co *ConfigObj) AllSections() map[string]*Section {
+	return co.baseSection.AllSections()
+}
+
+//AllDatas return all key-value data
+func (co *ConfigObj) AllDatas() map[string]string {
+	return co.baseSection.AllDatas()
+}
+
 //Section get section, if not have section, return nil
 func (s *Section) Section(name string) *Section {
 	sect, ok := s.sects[name]
@@ -204,6 +214,16 @@ func (s *Section) Value(key string) string {
 //SetValue set section value
 func (s *Section) SetValue(key, value string) {
 	s.data[key] = value
+}
+
+//AllSections return all sections
+func (s *Section) AllSections() map[string]*Section {
+	return s.sects
+}
+
+//AllDatas return all key-value data
+func (s *Section) AllDatas() map[string]string {
+	return s.data
 }
 
 func newSection(name string, depth int, parent *Section) *Section {
