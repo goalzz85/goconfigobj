@@ -114,6 +114,30 @@ func TestSectionDepth(t *testing.T) {
 	}
 }
 
+func TestSectionMultiDepth(t *testing.T) {
+	txt := `
+	aa = bb
+
+	[fff]
+		bb =gg
+		[[zz]]
+			[[["ggg"]]]
+				aa    =aa
+
+	[eee]
+		bb =gg
+		[[zz]]
+			[[["ggg"]]]
+			aa    =aa
+    `
+	co := NewConfigObj(strings.NewReader(txt))
+	if co.Value("aa") == "bb" && co.Section("fff").Section("zz").Section("ggg").Value("aa") == "aa" && co.Section("fff").Value("bb") == "gg" && co.Section("eee").Section("zz").Section("ggg").Value("aa") == "aa" && co.Section("eee").Value("bb") == "gg" {
+		t.Log("SectionMultiDepth test ok")
+	} else {
+		t.Error("SectionMultiDepth test failed")
+	}
+}
+
 func TestChinese(t *testing.T) {
 	txt := `
     [fff]

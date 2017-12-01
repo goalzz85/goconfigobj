@@ -160,16 +160,16 @@ func (co *ConfigObj) multiLineValue(value string, lines []string, curIndex, maxL
 }
 
 func (co *ConfigObj) matchParentSectDepth(sect *Section, depth int) *Section {
-	for {
-		if sect == nil || sect == sect.Parent() {
-			return nil
-		}
-
-		sect := sect.Parent()
-		if sect.Depth() == depth {
-			return sect.Parent()
-		}
+	if sect == nil || sect == sect.Parent() {
+		return nil
 	}
+
+	section := sect.Parent()
+	if section.Depth() == depth {
+		return section.Parent()
+	}
+
+	return co.matchParentSectDepth(section, depth)
 }
 
 //Section get section, if not have section, return nil
